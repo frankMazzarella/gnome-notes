@@ -1,0 +1,8 @@
+{
+  "name": "Gnome Notes",
+  "description": "Quickly take notes in the shell",
+  "uuid": "gnome-notes@frankmazz.com",
+  "shell-version": [
+    "3.34"
+  ]
+}
