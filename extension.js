@@ -3,8 +3,13 @@ const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
+const CurrentExtension = imports.misc.extensionUtils.getCurrentExtension();
 
+const Storage = CurrentExtension.imports.storage;
+
+// TODO: if too many notes then popup will expand below bottom of screen, implement scroll
 let panelEntry;
+let notes;
 
 class Extension {
   enable() {
@@ -18,6 +23,7 @@ class Extension {
 }
 
 function init() {
+  notes = Storage.getNotes();
   return new Extension();
 }
 
@@ -34,13 +40,16 @@ const GnomeNotesEntry = new Lang.Class({
     });
     this.actor.add_child(icon);
 
-    const testItem = new PopupMenu.PopupMenuItem('Test Item');
+    notes.forEach(note => {
+      const popupMenuItem = new PopupMenu.PopupMenuItem(note);
+      this.menu.addMenuItem(popupMenuItem);
+    });
+    
     const settingsMenuItem = new PopupMenu.PopupMenuItem('Settings');
-
-    this.menu.addMenuItem(testItem);
     this.menu.addMenuItem(settingsMenuItem);
 
-    testItem.connect('activate', Lang.bind(this, () => log('TEST CLICKED')));
+    // this.menu.removeAll() USE TO CLEAR POPUP MENU ITEMS
+
     settingsMenuItem.connect('activate', Lang.bind(this, () => log('SETTINGS CLICKED')));
   }
 });
