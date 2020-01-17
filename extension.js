@@ -5,7 +5,7 @@ const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
 const CurrentExtension = imports.misc.extensionUtils.getCurrentExtension();
 
-const Storage = CurrentExtension.imports.storage;
+const Storage = CurrentExtension.imports.Storage;
 
 // TODO: if too many notes then popup will expand below bottom of screen, implement scroll
 let panelEntry;
@@ -42,14 +42,9 @@ const GnomeNotesEntry = new Lang.Class({
 
     notes.forEach(note => {
       const popupMenuItem = new PopupMenu.PopupMenuItem(note);
+      popupMenuItem.connect('activate', Lang.bind(this, () => log('ITEM CLICKED')));
       this.menu.addMenuItem(popupMenuItem);
     });
-    
-    const settingsMenuItem = new PopupMenu.PopupMenuItem('Settings');
-    this.menu.addMenuItem(settingsMenuItem);
-
     // this.menu.removeAll() USE TO CLEAR POPUP MENU ITEMS
-
-    settingsMenuItem.connect('activate', Lang.bind(this, () => log('SETTINGS CLICKED')));
   }
 });
